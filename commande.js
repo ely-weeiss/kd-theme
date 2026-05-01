@@ -6,7 +6,8 @@ const WA_NUMBER = '22227288065';
 
 document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', function(e) {
-        if (e.target && e.target.id === 'send-whatsapp-order' || e.target.closest('#send-whatsapp-order')) {
+        // C'est ici que ça change : on écoute le bouton de la page checkout !
+        if (e.target && e.target.id === 'submit-final-order' || e.target.closest('#submit-final-order')) {
             e.preventDefault();
             
             // 1. جلب معلومات العميل من الخانات (Récupérer les infos du client)
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             // 6. تغيير شكل الزر أثناء التحميل (Bouton de chargement)
-            const btn = document.getElementById('send-whatsapp-order');
+            const btn = document.getElementById('submit-final-order');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري تسجيل الطلب...';
             btn.disabled = true;
@@ -66,9 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // فتح الواتساب (Ouverture WhatsApp)
                 window.open(`https://wa.me/${WA_NUMBER}?text=${waMsg}`, '_blank');
                 
-                // تفريغ السلة بعد الطلب (Vider le panier après validation)
+                // تفريغ السلة بعد الطلب وتوجيه المستخدم للرئيسية
                 localStorage.removeItem('shop_cart_data'); 
-                location.reload();
+                window.location.href = "/"; // Redirige vers l'accueil au lieu de recharger la page
             })
             .catch(error => {
                 console.error('Erreur :', error);
@@ -76,8 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.open(`https://wa.me/${WA_NUMBER}?text=${waMsg}`, '_blank');
             })
             .finally(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
+                if(btn) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
             });
         }
     });
