@@ -6,7 +6,8 @@ const WA_NUMBER = '22227288065';
 
 document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', function(e) {
-        // C'est ici que ça change : on écoute le bouton de la page checkout !
+        
+        // التعديل هنا: قمنا بتغيير اسم الزر إلى submit-final-order ليتطابق مع صفحة إتمام الطلب
         if (e.target && e.target.id === 'submit-final-order' || e.target.closest('#submit-final-order')) {
             e.preventDefault();
             
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             // 6. تغيير شكل الزر أثناء التحميل (Bouton de chargement)
+            // التعديل هنا أيضاً ليطابق الزر الجديد
             const btn = document.getElementById('submit-final-order');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري تسجيل الطلب...';
@@ -67,9 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // فتح الواتساب (Ouverture WhatsApp)
                 window.open(`https://wa.me/${WA_NUMBER}?text=${waMsg}`, '_blank');
                 
-                // تفريغ السلة بعد الطلب وتوجيه المستخدم للرئيسية
+                // تفريغ السلة بعد الطلب وتوجيه العميل للرئيسية
                 localStorage.removeItem('shop_cart_data'); 
-                window.location.href = "/"; // Redirige vers l'accueil au lieu de recharger la page
+                window.location.href = "/"; // العودة للرئيسية
             })
             .catch(error => {
                 console.error('Erreur :', error);
